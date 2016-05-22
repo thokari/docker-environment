@@ -1,0 +1,13 @@
+---
+- hosts:
+    - chrome-nodes
+    - firefox-nodes
+
+  become: true
+  tasks:
+     - name: Start Selenium Hub
+       command: docker run -d -p 4444:4444 --name selenium-hub selenium/hub:2.53.0
+     - name: Start Chrome node
+       command: docker run -d --link selenium-hub:hub selenium/node-chrome:2.53.0
+     - name: Start Firefox node
+       command: docker run -d --link selenium-hub:hub selenium/node-firefox:2.53.0
